@@ -1,0 +1,133 @@
+<odoo>
+  <data>
+
+    <!-- SEARCH -->
+    <record id="vista_reservas_search" model="ir.ui.view">
+      <field name="name">club_padel.reserva.search</field>
+      <field name="model">club_padel.reserva</field>
+      <field name="arch" type="xml">
+        <search string="Buscar reservas">
+          <field name="referencia"/>
+          <field name="cliente_id"/>
+          <field name="pista_id"/>
+          <field name="estado"/>
+
+          <filter string="Hoy" name="hoy"
+                  domain="[('inicio','&gt;=', (context_today()).strftime('%%Y-%%m-%%d 00:00:00')),
+                           ('inicio','&lt;=', (context_today()).strftime('%%Y-%%m-%%d 23:59:59'))]"/>
+
+          <filter string="Confirmadas" name="confirmadas" domain="[('estado','=','confirmada')]"/>
+          <filter string="Realizadas" name="realizadas" domain="[('estado','=','realizada')]"/>
+          <filter string="Canceladas" name="canceladas" domain="[('estado','=','cancelada')]"/>
+
+          <group expand="0" string="Agrupar por">
+            <filter string="Pista" name="group_pista" context="{'group_by':'pista_id'}"/>
+            <filter string="Estado" name="group_estado" context="{'group_by':'estado'}"/>
+          </group>
+        </search>
+      </field>
+    </record>
+
+    <!-- LISTA -->
+    <record id="vista_reservas_tree" model="ir.ui.view">
+      <field name="name">club_padel.reserva.tree</field>
+      <field name="model">club_padel.reserva</field>
+      <field name="arch" type="xml">
+        <tree string="Reservas">
+          <field name="referencia"/>
+          <field name="cliente_id"/>
+          <field name="pista_id"/>
+          <field name="inicio"/>
+          <field name="fin"/>
+          <field name="duracion_horas"/>
+          <field name="total"/>
+          <field name="estado"/>
+        </tree>
+      </field>
+    </record>
+
+    <!-- FORM -->
+    <record id="vista_reservas_form" model="ir.ui.view">
+      <field name="name">club_padel.reserva.form</field>
+      <field name="model">club_padel.reserva</field>
+      <field name="arch" type="xml">
+        <form string="Reserva">
+          <header>
+            <button name="accion_confirmar" type="object" string="Confirmar"
+                    class="btn-primary" attrs="{'invisible':[('estado','!=','borrador')]}"/>
+            <button name="accion_realizada" type="object" string="Marcar realizada"
+                    class="btn-success" attrs="{'invisible':[('estado','!=','confirmada')]}"/>
+            <button name="accion_cancelar" type="object" string="Cancelar"
+                    class="btn-secondary" attrs="{'invisible':[('estado','=','cancelada')]}"/>
+
+            <field name="estado" widget="statusbar"
+                   statusbar_visible="borrador,confirmada,realizada,cancelada"/>
+          </header>
+
+          <sheet>
+
+            <div class="oe_title">
+              <h1>
+                <field name="referencia" readonly="1"/>
+              </h1>
+              <div class="text-muted">
+                Reserva de pista para <field name="cliente_id" options="{'no_create_edit': True}"/>
+              </div>
+            </div>
+
+            <group>
+              <group string="Datos principales">
+                <field name="cliente_id"/>
+                <field name="pista_id"/>
+              </group>
+
+              <group string="Horario">
+                <field name="inicio"/>
+                <field name="fin"/>
+              </group>
+            </group>
+
+            <group>
+              <group string="Importes">
+                <field name="duracion_horas" readonly="1"/>
+                <field name="total" readonly="1"/>
+              </group>
+
+              <group string="Notas">
+                <field name="observaciones" placeholder="Ej: partido amistoso / entrenamiento..."/>
+              </group>
+            </group>
+
+            <footer>
+              <button string="Imprimir confirmación" type="object"
+                      name="accion_imprimir_confirmacion" class="btn-primary"/>
+            </footer>
+
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+    <!-- CALENDARIO -->
+    <record id="vista_reservas_calendar" model="ir.ui.view">
+      <field name="name">club_padel.reserva.calendar</field>
+      <field name="model">club_padel.reserva</field>
+      <field name="arch" type="xml">
+        <calendar string="Calendario de reservas" date_start="inicio" date_stop="fin" color="pista_id">
+          <field name="referencia"/>
+          <field name="cliente_id"/>
+          <field name="pista_id"/>
+        </calendar>
+      </field>
+    </record>
+
+    <!-- ACCIÓN -->
+    <record id="accion_club_padel_reservas" model="ir.actions.act_window">
+      <field name="name">Reservas</field>
+      <field name="res_model">club_padel.reserva</field>
+      <field name="view_mode">tree,form,calendar</field>
+      <field name="search_view_id" ref="vista_reservas_search"/>
+    </record>
+
+  </data>
+</odoo>

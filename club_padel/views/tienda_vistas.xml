@@ -1,0 +1,74 @@
+<odoo>
+  <data>
+
+    <record id="vista_pedido_tienda_tree" model="ir.ui.view">
+      <field name="name">club_padel.pedido_tienda.tree</field>
+      <field name="model">club_padel.pedido_tienda</field>
+      <field name="arch" type="xml">
+        <tree string="Pedidos Tienda">
+          <field name="referencia"/>
+          <field name="cliente_id"/>
+          <field name="reserva_id"/>
+          <field name="fecha"/>
+          <field name="estado"/>
+          <field name="total"/>
+        </tree>
+      </field>
+    </record>
+
+    <record id="vista_pedido_tienda_form" model="ir.ui.view">
+      <field name="name">club_padel.pedido_tienda.form</field>
+      <field name="model">club_padel.pedido_tienda</field>
+      <field name="arch" type="xml">
+        <form string="Pedido Tienda">
+          <header>
+            <button name="accion_marcar_pagado" type="object" string="Marcar pagado" class="btn-primary"
+                    attrs="{'invisible':[('estado','!=','borrador')]}"/>
+            <button name="accion_cancelar" type="object" string="Cancelar" class="btn-secondary"
+                    attrs="{'invisible':[('estado','=','cancelado')]}"/>
+            <field name="estado" widget="statusbar" statusbar_visible="borrador,pagado,cancelado"/>
+          </header>
+
+          <sheet>
+            <div class="oe_title">
+              <h1><field name="referencia" readonly="1"/></h1>
+              <div class="text-muted">
+                <span>Total:</span> <field name="total" readonly="1"/>
+              </div>
+            </div>
+
+            <group>
+              <field name="cliente_id"/>
+              <field name="reserva_id"/>
+              <field name="fecha"/>
+            </group>
+
+            <notebook>
+              <page string="Líneas">
+                <field name="linea_ids">
+                  <tree editable="bottom">
+                    <field name="producto_id"/>
+                    <field name="cantidad"/>
+                    <field name="precio"/>
+                    <field name="subtotal" readonly="1"/>
+                  </tree>
+                </field>
+              </page>
+            </notebook>
+
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+    <record id="accion_pedidos_tienda" model="ir.actions.act_window">
+      <field name="name">Pedidos Tienda</field>
+      <field name="res_model">club_padel.pedido_tienda</field>
+      <field name="view_mode">tree,form</field>
+      <field name="help" type="html">
+        <p class="o_view_nocontent_smiling_face">Crea pedidos para vender productos del club.</p>
+      </field>
+    </record>
+
+  </data>
+</odoo>

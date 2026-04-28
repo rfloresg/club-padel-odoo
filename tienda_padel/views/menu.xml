@@ -1,0 +1,17 @@
+<odoo>
+  <data>
+
+    <!-- Menú raíz (aparece como App / sección) -->
+    <menuitem id="menu_tienda_padel_root"
+              name="Tienda Pádel"
+              sequence="15"/>
+
+    <!-- Entrada Productos -->
+    <menuitem id="menu_tienda_padel_productos"
+              name="Productos"
+              parent="menu_tienda_padel_root"
+              sequence="10"
+              action="accion_tienda_padel_productos"/>
+
+  </data>
+</odoo>

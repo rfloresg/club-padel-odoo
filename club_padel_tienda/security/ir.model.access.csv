@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_cpt_carrito_user,club_padel_tienda.carrito user,model_club_padel_tienda_carrito,base.group_user,1,1,1,1
+access_cpt_carrito_linea_user,club_padel_tienda.carrito_linea user,model_club_padel_tienda_carrito_linea,base.group_user,1,1,1,1

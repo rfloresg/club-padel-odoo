@@ -1,0 +1,28 @@
+<odoo>
+  <data>
+
+    <record id="reserva_form_inherit_tienda" model="ir.ui.view">
+      <field name="name">club_padel.reserva.form.inherit.tienda</field>
+      <field name="model">club_padel.reserva</field>
+      <field name="inherit_id" ref="club_padel.vista_reservas_form"/>
+      <field name="arch" type="xml">
+
+        <xpath expr="//header" position="inside">
+          <button name="accion_crear_pedido_tienda"
+                  type="object"
+                  string="Crear pedido tienda"
+                  class="btn-primary"
+                  attrs="{'invisible':[('pedido_tienda_id','!=',False)]}"/>
+        </xpath>
+
+        <xpath expr="//sheet//group[1]" position="after">
+          <group string="Tienda">
+            <field name="pedido_tienda_id" readonly="1"/>
+          </group>
+        </xpath>
+
+      </field>
+    </record>
+
+  </data>
+</odoo>

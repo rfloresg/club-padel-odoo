@@ -1,0 +1,32 @@
+<odoo>
+  <data noupdate="1">
+
+    <record id="demo_prod_pelotas" model="tienda_padel.producto">
+      <field name="nombre">Pelotas Pro</field>
+      <field name="categoria">pelotas</field>
+      <field name="precio">6.50</field>
+      <field name="stock">30</field>
+      <field name="activo">True</field>
+      <field name="descripcion">Bote de 3 pelotas para pádel.</field>
+    </record>
+
+    <record id="demo_prod_pala" model="tienda_padel.producto">
+      <field name="nombre">Pala Básica</field>
+      <field name="categoria">palas</field>
+      <field name="precio">59.99</field>
+      <field name="stock">8</field>
+      <field name="activo">True</field>
+      <field name="descripcion">Pala ideal para principiantes.</field>
+    </record>
+
+    <record id="demo_prod_overgrip" model="tienda_padel.producto">
+      <field name="nombre">Overgrip</field>
+      <field name="categoria">accesorios</field>
+      <field name="precio">3.00</field>
+      <field name="stock">50</field>
+      <field name="activo">True</field>
+      <field name="descripcion">Pack de overgrips para mejorar el agarre.</field>
+    </record>
+
+  </data>
+</odoo>

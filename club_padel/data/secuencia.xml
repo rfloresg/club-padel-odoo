@@ -1,0 +1,10 @@
+<odoo>
+    <data noupdate="1">
+        <record id="seq_reserva_padel" model="ir.sequence">
+            <field name="name">Secuencia Reservas Pádel</field>
+            <field name="code">club_padel.reserva.seq</field>
+            <field name="prefix">RES-</field>
+            <field name="padding">4</field>
+        </record>
+    </data>
+</odoo>

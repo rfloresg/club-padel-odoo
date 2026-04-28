@@ -1,0 +1,29 @@
+<odoo>
+  <data noupdate="1">
+
+    <record id="prod_pelotas_padel" model="product.template">
+      <field name="name">Pelotas de pádel</field>
+      <field name="sale_ok">True</field>
+      <field name="purchase_ok">False</field>
+      <field name="list_price">6.50</field>
+      <field name="type">consu</field>
+    </record>
+
+    <record id="prod_pala_basica" model="product.template">
+      <field name="name">Pala básica</field>
+      <field name="sale_ok">True</field>
+      <field name="purchase_ok">False</field>
+      <field name="list_price">59.99</field>
+      <field name="type">consu</field>
+    </record>
+
+    <record id="prod_overgrip" model="product.template">
+      <field name="name">Overgrip</field>
+      <field name="sale_ok">True</field>
+      <field name="purchase_ok">False</field>
+      <field name="list_price">3.00</field>
+      <field name="type">consu</field>
+    </record>
+
+  </data>
+</odoo>

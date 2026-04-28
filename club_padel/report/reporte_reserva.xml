@@ -1,0 +1,14 @@
+
+<odoo>
+  <data>
+    <record id="accion_reporte_reserva" model="ir.actions.report">
+      <field name="name">Confirmación de reserva</field>
+      <field name="model">club_padel.reserva</field>
+      <field name="report_type">qweb-pdf</field>
+      <field name="report_name">club_padel.plantilla_reporte_reserva</field>
+      <field name="report_file">club_padel.plantilla_reporte_reserva</field>
+      <field name="print_report_name">'Reserva - %s' % (object.referencia)</field>
+    </record>
+  </data>
+</odoo>
+

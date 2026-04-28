@@ -1,0 +1,55 @@
+<odoo>
+  <data>
+
+    <!-- TREE -->
+    <record id="view_tienda_padel_producto_tree" model="ir.ui.view">
+      <field name="name">tienda_padel.producto.tree</field>
+      <field name="model">tienda_padel.producto</field>
+      <field name="arch" type="xml">
+        <tree string="Productos">
+          <field name="nombre"/>
+          <field name="categoria"/>
+          <field name="precio"/>
+          <field name="stock"/>
+          <field name="activo"/>
+        </tree>
+      </field>
+    </record>
+
+    <!-- FORM -->
+    <record id="view_tienda_padel_producto_form" model="ir.ui.view">
+      <field name="name">tienda_padel.producto.form</field>
+      <field name="model">tienda_padel.producto</field>
+      <field name="arch" type="xml">
+        <form string="Producto">
+          <sheet>
+            <group>
+              <field name="nombre"/>
+              <field name="categoria"/>
+              <field name="precio"/>
+              <field name="stock"/>
+              <field name="activo"/>
+            </group>
+
+            <group>
+              <field name="imagen" widget="image"/>
+            </group>
+
+            <group>
+              <field name="descripcion"/>
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+    <!-- ACTION -->
+    <record id="accion_tienda_padel_productos" model="ir.actions.act_window">
+      <field name="name">Productos</field>
+      <field name="res_model">tienda_padel.producto</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+  </data>
+</odoo>
+

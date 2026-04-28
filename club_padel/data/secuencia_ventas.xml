@@ -1,0 +1,10 @@
+<odoo>
+  <data noupdate="1">
+    <record id="seq_venta_tienda" model="ir.sequence">
+      <field name="name">Secuencia Ventas Tienda</field>
+      <field name="code">club_padel.venta</field>
+      <field name="prefix">V</field>
+      <field name="padding">4</field>
+    </record>
+  </data>
+</odoo>

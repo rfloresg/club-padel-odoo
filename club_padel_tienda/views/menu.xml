@@ -1,0 +1,12 @@
+<odoo>
+  <data>
+
+    <!-- Dentro de la app "Tienda Pádel" (módulo tienda_padel) -->
+    <menuitem id="menu_cpt_carritos"
+              name="Carritos por Reserva"
+              parent="tienda_padel.menu_tienda_padel_root"
+              sequence="20"
+              action="accion_cpt_carritos"/>
+
+  </data>
+</odoo>

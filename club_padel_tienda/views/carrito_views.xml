@@ -1,0 +1,56 @@
+<odoo>
+  <data>
+
+    <!-- TREE -->
+    <record id="view_cpt_carrito_tree" model="ir.ui.view">
+      <field name="name">club_padel_tienda.carrito.tree</field>
+      <field name="model">club_padel_tienda.carrito</field>
+      <field name="arch" type="xml">
+        <tree string="Carritos por reserva">
+          <field name="name"/>
+          <field name="reserva_id"/>
+          <field name="total"/>
+        </tree>
+      </field>
+    </record>
+
+    <!-- FORM -->
+    <record id="view_cpt_carrito_form" model="ir.ui.view">
+      <field name="name">club_padel_tienda.carrito.form</field>
+      <field name="model">club_padel_tienda.carrito</field>
+      <field name="arch" type="xml">
+        <form string="Carrito">
+          <sheet>
+            <group>
+              <field name="name" readonly="1"/>
+              <field name="reserva_id"/>
+              <field name="total" readonly="1"/>
+            </group>
+
+            <notebook>
+              <page string="Productos">
+                <field name="linea_ids">
+                  <tree editable="bottom">
+                    <field name="producto_id"/>
+                    <field name="cantidad"/>
+                    <field name="precio" readonly="1"/>
+                    <field name="subtotal" readonly="1"/>
+                  </tree>
+                </field>
+              </page>
+            </notebook>
+
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+    <!-- ACTION -->
+    <record id="accion_cpt_carritos" model="ir.actions.act_window">
+      <field name="name">Carritos por reserva</field>
+      <field name="res_model">club_padel_tienda.carrito</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+  </data>
+</odoo>

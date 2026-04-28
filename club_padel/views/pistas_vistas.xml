@@ -1,0 +1,137 @@
+<odoo>
+<data>
+ <!-- SEARCH -->
+    <record id="vista_pistas_search" model="ir.ui.view">
+      <field name="name">club_padel.pista.search</field>
+      <field name="model">club_padel.pista</field>
+      <field name="arch" type="xml">
+<search string="Buscar pistas">
+          <field name="nombre"/>
+          <field name="codigo"/>
+          <field name="tipo_pista"/>
+<filter string="Activas" name="activa" domain="[('activa','=',True)]"/>
+          <filter string="Indoor" name="indoor" domain="[('tipo_pista','=','indoor')]"/>
+          <filter string="Outdoor" name="outdoor" domain="[('tipo_pista','=','outdoor')]"/>
+          <group expand="0" string="Agrupar por">
+            <filter string="Tipo" context="{'group_by':'tipo_pista'}"/>
+            <filter string="Activa" context="{'group_by':'activa'}"/>
+          </group>
+        </search>
+      </field>
+    </record>
+<!-- KANBAN -->
+<record id="vista_pistas_kanban" model="ir.ui.view">
+  <field name="name">club_padel.pista.kanban</field>
+  <field name="model">club_padel.pista</field>
+  <field name="arch" type="xml">
+    <kanban>
+      <field name="nombre"/>
+      <field name="codigo"/>
+      <field name="tipo_pista"/>
+      <field name="precio_hora"/>
+      <field name="activa"/>
+
+      <templates>
+        <t t-name="kanban-box">
+          <div class="oe_kanban_card club_padel_card">
+            <div class="club_padel_card_header">
+              <div>
+                <strong><field name="nombre"/></strong>
+                <div class="text-muted">Código: <field name="codigo"/></div>
+              </div>
+
+              <div class="club_padel_chip"
+                   t-attf-class="club_padel_chip #{record.tipo_pista.raw_value}">
+                <t t-esc="record.tipo_pista.value"/>
+              </div>
+            </div>
+
+            <div class="club_padel_card_body">
+              <div>
+                <span class="text-muted">Precio/hora:</span>
+                <strong> <field name="precio_hora"/> €</strong>
+              </div>
+              <div>
+                <span class="text-muted">Activa:</span>
+                <t t-if="record.activa.raw_value"><strong>Sí</strong></t>
+                <t t-else=""><strong>No</strong></t>
+              </div>
+            </div>
+          </div>
+        </t>
+      </templates>
+    </kanban>
+  </field>
+</record>
+
+<!-- LISTA -->
+    <record id="vista_pistas_tree" model="ir.ui.view">
+      <field name="name">club_padel.pista.tree</field>
+      <field name="model">club_padel.pista</field>
+      <field name="arch" type="xml">
+        <tree string="Pistas" default_order="codigo asc">
+          <field name="codigo"/>
+          <field name="nombre"/>
+          <field name="tipo_pista"/>
+          <field name="precio_hora"/>
+          <field name="activa"/>
+        </tree>
+      </field>
+    </record>
+ <!-- FORM (más limpio y con título) -->
+    <record id="vista_pistas_form" model="ir.ui.view">
+      <field name="name">club_padel.pista.form</field>
+      <field name="model">club_padel.pista</field>
+      <field name="arch" type="xml">
+        <form string="Pista">
+          <sheet>
+
+            <div class="oe_title">
+              <h1>
+                <field name="nombre" placeholder="Ej: Pista Central"/>
+              </h1>
+              <div class="text-muted">
+                <span>Código:</span>
+                <field name="codigo" placeholder="Ej: P3"/>
+              </div>
+            </div>
+ <group>
+              <group string="Datos de la pista">
+                <field name="tipo_pista"/>
+                <field name="activa"/>
+              </group>
+              <group string="Tarifa">
+                <field name="precio_hora" placeholder="Ej: 18.00"/>
+              </group>
+            </group>
+<notebook>
+              <page string="Notas">
+                <field name="notas" placeholder="Ej: mantenimiento los viernes, luz perfecta por la tarde..."/>
+              </page>
+            </notebook>
+
+          </sheet>
+        </form>
+      </field>
+    </record>
+<!-- ACCIÓN FORZADA (usa TUS vistas sí o sí) -->
+    <record id="accion_club_padel_pistas" model="ir.actions.act_window">
+      <field name="name">Pistas</field>
+      <field name="res_model">club_padel.pista</field>
+      <field name="view_mode">kanban,tree,form</field>
+      <field name="search_view_id" ref="vista_pistas_search"/>
+      <field name="views" eval="[(ref('vista_pistas_kanban'), 'kanban'),
+                                (ref('vista_pistas_tree'), 'tree'),
+                                (ref('vista_pistas_form'), 'form')]"/>
+      <field name="help" type="html">
+        <p class="o_view_nocontent_smiling_face">
+          Crea tu primera pista para empezar a gestionar reservas.
+        </p>
+        <p>
+          Define tipo (Indoor/Outdoor), precio por hora y si está activa.
+        </p>
+      </field>
+    </record>
+
+  </data>
+</odoo>

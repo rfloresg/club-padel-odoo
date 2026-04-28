@@ -1,0 +1,25 @@
+<odoo>
+  <data>
+
+    <menuitem id="menu_club_padel_root" name="Club Pádel" sequence="10"/>
+
+    <menuitem id="menu_club_padel_pistas_top"
+              name="Pistas"
+              parent="menu_club_padel_root"
+              sequence="10"
+              action="accion_club_padel_pistas"/>
+
+    <menuitem id="menu_club_padel_reservas_top"
+              name="Reservas"
+              parent="menu_club_padel_root"
+              sequence="20"
+              action="accion_club_padel_reservas"/>
+
+    <menuitem id="menu_club_padel_tienda_top"
+              name="Tienda"
+              parent="menu_club_padel_root"
+              sequence="30"
+              action="accion_tienda_productos"/>
+
+  </data>
+</odoo>

@@ -1,0 +1,64 @@
+/* =========================
+   TEMA CLUB PÁDEL - EXCLUSIVO
+   Verde oscuro + detalles deportivos
+   ========================= */
+
+/* Barra superior */
+.o_main_navbar {
+    background: linear-gradient(90deg, #0f5132, #198754) !important;
+    border-bottom: 3px solid #0a3d27;
+}
+
+.o_main_navbar .o_menu_brand,
+.o_main_navbar .o_menu_sections a {
+    color: #ffffff !important;
+    font-weight: 600;
+}
+
+/* Menú lateral (para que NO salga blanco sobre blanco) */
+.o_web_client .o_menu_apps {
+    background-color: #f4f7f5 !important;
+}
+
+.o_web_client .o_menu_apps .o_app {
+    color: #0f5132 !important;
+    font-weight: bold;
+}
+
+/* Hover menú lateral */
+.o_web_client .o_menu_apps .o_app:hover {
+    background-color: #d1e7dd !important;
+    color: #0a3d27 !important;
+}
+
+/* Tabla estilo deportivo */
+.o_list_view thead {
+    background-color: #0f5132 !important;
+    color: white !important;
+}
+
+.o_list_view tbody tr:nth-child(even) {
+    background-color: #e9f5ee !important;
+}
+
+/* Botón NEW */
+.btn-primary {
+    background-color: #198754 !important;
+    border-color: #0f5132 !important;
+    font-weight: bold;
+}
+
+.btn-primary:hover {
+    background-color: #0f5132 !important;
+}
+
+/* Formularios */
+.o_form_view .o_form_sheet_bg {
+    background: linear-gradient(180deg, #ffffff, #f1f9f4);
+}
+
+/* Títulos */
+.o_control_panel .breadcrumb {
+    color: #0f5132 !important;
+    font-weight: bold;
+}

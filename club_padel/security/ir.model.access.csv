@@ -1,0 +1,11 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+
+access_club_padel_pista_user,club_padel.pista user,model_club_padel_pista,base.group_user,1,1,1,1
+access_club_padel_reserva_user,club_padel.reserva user,model_club_padel_reserva,base.group_user,1,1,1,1
+
+access_club_padel_venta_user,club_padel.venta user,model_club_padel_venta,base.group_user,1,1,1,1
+access_club_padel_pedido_tienda_user,club_padel.pedido_tienda user,model_club_padel_pedido_tienda,base.group_user,1,1,1,1
+
+access_club_padel_pedido_tienda_linea_user,club_padel.pedido_tienda_linea user,model_club_padel_pedido_tienda_linea,base.group_user,1,1,1,1
+
+access_club_padel_tienda_producto_user,club_padel.tienda_producto user,model_club_padel_tienda_producto,base.group_user,1,1,1,1

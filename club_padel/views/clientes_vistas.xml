@@ -1,0 +1,20 @@
+<odoo>
+  <data>
+    <record id="vista_cliente_form_inherit_padel" model="ir.ui.view">
+      <field name="name">res.partner.form.inherit.club_padel</field>
+      <field name="model">res.partner</field>
+      <field name="inherit_id" ref="base.view_partner_form"/>
+      <field name="arch" type="xml">
+        <xpath expr="//sheet/notebook" position="inside">
+          <page string="Pádel">
+            <group>
+              <field name="es_jugador_padel"/>
+              <field name="nivel_padel" attrs="{'invisible':[('es_jugador_padel','=',False)]}"/>
+              <field name="mano_dominante" attrs="{'invisible':[('es_jugador_padel','=',False)]}"/>
+            </group>
+          </page>
+        </xpath>
+      </field>
+    </record>
+  </data>
+</odoo>
