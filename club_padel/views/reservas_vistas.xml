@@ -128,11 +128,38 @@
       </field>
     </record>
 
+    <!-- GRÁFICO -->
+    <record id="vista_reservas_graph" model="ir.ui.view">
+      <field name="name">club_padel.reserva.graph</field>
+      <field name="model">club_padel.reserva</field>
+      <field name="arch" type="xml">
+        <graph string="Ingresos por pista" type="bar">
+          <field name="pista_id" type="row"/>
+          <field name="total" type="measure"/>
+          <field name="duracion_horas" type="measure"/>
+        </graph>
+      </field>
+    </record>
+
+    <!-- TABLA DINÁMICA (PIVOT) -->
+    <record id="vista_reservas_pivot" model="ir.ui.view">
+      <field name="name">club_padel.reserva.pivot</field>
+      <field name="model">club_padel.reserva</field>
+      <field name="arch" type="xml">
+        <pivot string="Análisis de reservas">
+          <field name="pista_id" type="row"/>
+          <field name="estado" type="col"/>
+          <field name="total" type="measure"/>
+          <field name="duracion_horas" type="measure"/>
+        </pivot>
+      </field>
+    </record>
+
     <!-- ACCIÓN -->
     <record id="accion_club_padel_reservas" model="ir.actions.act_window">
       <field name="name">Reservas</field>
       <field name="res_model">club_padel.reserva</field>
-      <field name="view_mode">tree,form,calendar</field>
+      <field name="view_mode">tree,form,calendar,graph,pivot</field>
       <field name="search_view_id" ref="vista_reservas_search"/>
     </record>
 
