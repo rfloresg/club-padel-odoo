@@ -38,51 +38,89 @@ Se utilizaron dos herramientas de IA a lo largo del proyecto: **ChatGPT (OpenAI)
 
 ### 2.1 ChatGPT — Fase inicial del proyecto
 
-**Conversación 1: Estructura del proyecto Odoo**  
-*Título del chat: "Proyecto Odoo Padel"*
-
-Se consultó cómo crear la estructura de un módulo Odoo desde cero, incluyendo qué archivos son obligatorios y cómo se relacionan entre sí.
-
-**Prompt utilizado:**
-> "Estoy haciendo un módulo de Odoo 16 para gestionar un club de pádel. ¿Cuáles son los archivos mínimos que necesita un módulo para funcionar?"
-
-**Respuesta obtenida (resumen):**  
-La IA explicó que un módulo Odoo necesita mínimo: `__init__.py`, `__manifest__.py`, y una carpeta `models/` con otro `__init__.py`. Indicó que los archivos de vistas van en `views/`, la seguridad en `security/ir.model.access.csv`, y que el orden de carga en `data:` dentro del manifest es importante (seguridad antes que vistas).
-
-**Cómo se aplicó:**  
-Se utilizó esta estructura para crear los tres módulos del proyecto (`club_padel`, `tienda_padel`, `club_padel_tienda`), respetando el orden de dependencias: `tienda_padel` → `club_padel` → `club_padel_tienda`.
+**Herramienta:** ChatGPT (chat de grupo compartido entre Rubén y Ángel)  
+**Fecha:** Febrero 2026  
+**Entorno:** Ubuntu 22 · Odoo 16 como servicio systemd (`odoo16.service`) · usuario `operador_odoo`
 
 ---
 
-**Conversación 2: Error 5000 en el módulo Tienda**  
-*Título del chat: "Error 5000 Odoo Tienda"*
-
-Durante el desarrollo apareció un error 5000 (error interno del servidor) al cargar el módulo `club_padel_tienda`.
+**Interacción 1: Crear el módulo desde cero**
 
 **Prompt utilizado:**
-> "En Odoo 16 me aparece Error 5000 al intentar instalar mi módulo. El módulo depende de otro módulo propio. ¿Qué puede estar fallando?"
+> "Tengo que realizar este trabajo con mi compañero. Sabemos la temática pero no precisa, nos gustaría que fuese sobre el pádel... Es la segunda vez que pongo este prompt, porque en otro chat se estaba complicando demasiado hasta en la instalación tenemos un usuario operador_odoo y odoo como servicio al encender el ordenador se enciende el servicio, es Ubuntu22 y Odoo16. Es en parejas con Angel, hazme el codigo y todo lo necesario para poder hacerlo paso por paso."
 
 **Respuesta obtenida (resumen):**  
-La IA indicó que los errores 5000 suelen deberse a: (1) un modelo referenciado en las vistas que no existe todavía, (2) un campo `Many2one` apuntando a un modelo no registrado, o (3) un `_inherit` de un modelo que aún no está cargado. Recomendó revisar el orden de dependencias en `__manifest__.py` y comprobar los logs con `--log-level=debug`.
+ChatGPT generó la estructura completa del módulo (`padel_club`) con carpetas en inglés (`models/`, `views/`, `security/`), todos los modelos Python (`padel_court.py`, `padel_booking.py`, `res_partner.py`, `product_template.py`), vistas XML, el archivo `ir.model.access.csv`, la secuencia `ir.sequence` y la plantilla QWeb del informe PDF. También incluyó los comandos de Ubuntu para crear archivos y carpetas.
 
 **Cómo se aplicó:**  
-Se corrigió el orden de dependencias en el manifest de `club_padel_tienda` para asegurar que `club_padel` y `tienda_padel` se cargaran antes. También se revisaron las relaciones `Many2one` entre modelos.
+Sirvió de base para la estructura completa del proyecto: la organización de carpetas, los modelos de pistas y reservas, la herencia de `res.partner` para datos de jugador, y la herencia de `product.template` para el catálogo de productos.
 
 ---
 
-**Conversación 3: Mejoras en la documentación**  
-*Título del chat: "Mejoras en PDF Proyecto"*
-
-Se consultó cómo mejorar la estructura y contenido del documento de memoria del proyecto.
+**Interacción 2: Renombrar carpetas al español**
 
 **Prompt utilizado:**
-> "Tengo que entregar una memoria de un proyecto de Odoo para clase. ¿Qué secciones debería incluir y cómo documentar el uso de IA?"
+> "espera hazmelo de 0, en español y ponme los comandos necesarios teniendo en cuenta todo, entrar en carpeta salir de carpeta cambiar de usuario y todo. y en español"  
+> *(y después)* "creame todas las carpetas en español y luego los .py tambien"
 
 **Respuesta obtenida (resumen):**  
-La IA sugirió incluir: descripción del escenario, documentación técnica con fuentes reales (URLs), sección específica de uso de IA con prompts reales y respuestas obtenidas, descripción de los modelos creados, y una sección de pruebas realizadas.
+ChatGPT regeneró toda la estructura con nombres en español: `modelos/`, `vistas/`, `seguridad/`, `datos/`, `informes/`, `estatico/` y los archivos `.py` también con nombres en español (`pista_padel.py`, `reserva_padel.py`, `cliente_contacto.py`, `producto_padel.py`). Incluyó los comandos de `mkdir`, `touch` y `nano` con cambios de usuario (`sudo -i -u operador_odoo`).
 
 **Cómo se aplicó:**  
-Se reorganizó la memoria del proyecto siguiendo estas recomendaciones, añadiendo la sección de fuentes con URLs y los ejemplos de prompts utilizados.
+Se creó el módulo `club_padel` con esta estructura. Más adelante, al migrar al entorno Docker se renombraron las carpetas al estándar de Odoo (`models/`, `views/`, etc.) para compatibilidad.
+
+---
+
+**Interacción 3: Problema con `addons_path` — servicio sin config**
+
+**Prompt utilizado:**
+> "no existe el odoo16.conf o el odoo.conf he puesto los 4 y en ninguno me pone que existe, y quiero que hagas todo con el usuario operador_odoo que es el que tiene permisos, y si necesito salir del operador_odoo o entrar, dimelo. No encuentro el addonspath"
+
+**Respuesta obtenida (resumen):**  
+ChatGPT explicó que si no existe archivo `.conf`, Odoo se lanza sin él y hay que buscar el servicio con `systemctl list-units --type=service | grep -i odoo`. Una vez identificado el servicio (`odoo16.service`), se ve su configuración con `systemctl cat odoo16.service`.
+
+**Prompt de seguimiento:**
+> "es odoo16.service y veo solo esto ExecStart=/opt/odoo/odoo-bin"
+
+**Respuesta obtenida:**  
+Al no existir config, la solución fue crear un override del servicio con `sudo systemctl edit odoo16.service` añadiendo la línea `--addons-path` con la ruta de los addons del core y la carpeta custom:
+
+```
+[Service]
+ExecStart=
+ExecStart=/opt/odoo/odoo-bin --addons-path=/opt/odoo/odoo/addons,/opt/odoo/custom_addons
+```
+
+Y luego `sudo systemctl daemon-reload && sudo systemctl restart odoo16.service`.
+
+**Cómo se aplicó:**  
+Permitió que Odoo detectase la carpeta `custom_addons` y cargase el módulo `club_padel`.
+
+---
+
+**Interacción 4: Referencias rotas al renombrar carpetas**
+
+**Prompt utilizado:**
+> "algo pasa a ver piensa, no hay otros ficheros que cogen los nombres de las carpetas en español o algo así porque ha sido al cambiar el nombre de la carpeta y el manifest de las carpetas, solo he cambiado eso, tengo que cambiar algo mas"
+
+**Respuesta obtenida (resumen):**  
+ChatGPT identificó que al renombrar carpetas no basta con cambiar el `__manifest__.py`. También hay que actualizar: (1) el `__init__.py` raíz (`from . import models`, no `modelos`), (2) el `models/__init__.py` con los nombres correctos de archivos, y (3) cualquier referencia interna en los XML. Proporcionó el comando `grep -R "informes\|vistas\|modelos\|seguridad\|datos\|estatico" -n /opt/odoo/custom_addons/club_padel` para detectar referencias antiguas.
+
+**Cómo se aplicó:**  
+Se corrigieron los `__init__.py` y se actualizaron los `report_file` y `report_name` en los XML de informes para que coincidieran con las nuevas rutas.
+
+---
+
+**Interacción 5: Orden del manifest y error en CSS**
+
+**Prompt utilizado:**
+> *(pegó el `__manifest__.py` con el orden: vistas → menú → informes)* "es correcto todo?"
+
+**Respuesta obtenida (resumen):**  
+ChatGPT señaló dos problemas: (1) los informes deben cargarse **antes** que las vistas si las vistas referencian una acción de informe; el orden correcto es `security → data → report → views → menu`. (2) El archivo CSS tenía el propio comando `cat > estatico/... << 'EOF'` pegado dentro como primera línea en lugar de ser CSS válido, lo que rompía los assets del backend.
+
+**Cómo se aplicó:**  
+Se reordenó la lista `data` del manifest y se reescribió el CSS con el contenido correcto. El módulo arrancó sin errores tras estos cambios.
 
 ---
 
