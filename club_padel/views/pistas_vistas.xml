@@ -13,8 +13,8 @@
           <filter string="Indoor" name="indoor" domain="[('tipo_pista','=','indoor')]"/>
           <filter string="Outdoor" name="outdoor" domain="[('tipo_pista','=','outdoor')]"/>
           <group expand="0" string="Agrupar por">
-            <filter string="Tipo" context="{'group_by':'tipo_pista'}"/>
-            <filter string="Activa" context="{'group_by':'activa'}"/>
+            <filter string="Tipo" name="groupby_tipo_pista" context="{'group_by':'tipo_pista'}"/>
+            <filter string="Activa" name="groupby_activa" context="{'group_by':'activa'}"/>
           </group>
         </search>
       </field>
