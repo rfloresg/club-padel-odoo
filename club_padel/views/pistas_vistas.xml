@@ -103,6 +103,14 @@
               <group string="Tarifa">
                 <field name="precio_hora" placeholder="Ej: 18.00"/>
               </group>
+              <group string="Características">
+                <field name="superficie"/>
+                <field name="iluminacion"/>
+              </group>
+            </group>
+            <group string="Resumen">
+              <field name="etiqueta_pista" readonly="1"/>
+              <field name="reservas_activas" readonly="1"/>
             </group>
 <notebook>
               <page string="Notas">
