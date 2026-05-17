@@ -81,6 +81,15 @@ class ReservaPadel(models.Model):
             if self.search_count(dominio) > 0:
                 raise ValidationError("Ya existe una reserva que se solapa en esa pista y horario.")
 
+    @api.onchange("pista_id")
+    def _onchange_pista_id(self):
+        if self.pista_id and not self.observaciones:
+            self.observaciones = (
+                f"Pista {self.pista_id.nombre} "
+                f"({self.pista_id.tipo_pista}) — "
+                f"{self.pista_id.precio_hora:.2f}€/h"
+            )
+
     # --- BOTONES DEL FORMULARIO (coinciden con la vista) ---
     def accion_confirmar(self):
         for rec in self:
