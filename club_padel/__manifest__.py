@@ -16,8 +16,6 @@
         # ======================
         "data/secuencia.xml",
         "data/secuencia_ventas.xml",
-        "data/demo.xml",
-        "data/productos_demo.xml",
         "data/tienda_productos_demo.xml",
 
         # ======================
