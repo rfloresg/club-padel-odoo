@@ -6,11 +6,42 @@
       <field name="inherit_id" ref="base.view_partner_form"/>
       <field name="arch" type="xml">
         <xpath expr="//sheet/notebook" position="inside">
-          <page string="Pádel">
-            <group>
-              <field name="es_jugador_padel"/>
-              <field name="nivel_padel" attrs="{'invisible':[('es_jugador_padel','=',False)]}"/>
-              <field name="mano_dominante" attrs="{'invisible':[('es_jugador_padel','=',False)]}"/>
+          <page string="Pádel" name="padel_info">
+            <group string="Información del jugador">
+              <group>
+                <field name="es_jugador_padel"/>
+                <field name="nivel_padel"
+                       attrs="{'invisible': [('es_jugador_padel', '=', False)],
+                               'required': [('es_jugador_padel', '=', True)]}"/>
+                <field name="mano_dominante"
+                       attrs="{'invisible': [('es_jugador_padel', '=', False)]}"/>
+              </group>
+              <group attrs="{'invisible': [('es_jugador_padel', '=', False)]}">
+                <field name="marca_pala"/>
+                <field name="modelo_pala"/>
+              </group>
+            </group>
+            <group string="Resumen automático"
+                   attrs="{'invisible': [('es_jugador_padel', '=', False)]}">
+              <field name="descripcion_jugador" readonly="1"/>
+              <field name="total_reservas" readonly="1"/>
+            </group>
+            <group string="Reservas del socio"
+                   attrs="{'invisible': [('es_jugador_padel', '=', False)]}">
+              <field name="reserva_ids" nolabel="1">
+                <tree editable="bottom">
+                  <field name="referencia"/>
+                  <field name="pista_id"/>
+                  <field name="inicio"/>
+                  <field name="fin"/>
+                  <field name="estado"
+                         decoration-success="estado == 'confirmada'"
+                         decoration-info="estado == 'borrador'"
+                         decoration-danger="estado == 'cancelada'"
+                         decoration-muted="estado == 'realizada'"
+                         widget="badge"/>
+                </tree>
+              </field>
             </group>
           </page>
         </xpath>
