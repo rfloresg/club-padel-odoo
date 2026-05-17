@@ -4,7 +4,7 @@
     "category": "Services",
     "summary": "Gestión de pistas, reservas y tienda para un club de pádel",
     "author": "Rubén y Ángel",
-    "depends": ["base", "contacts", "product", "web"],
+    "depends": ["base", "contacts", "product", "web", "mail"],
     "data": [
         # ======================
         # SEGURIDAD

@@ -5,6 +5,7 @@ from odoo.exceptions import ValidationError
 class ReservaPadel(models.Model):
     _name = "club_padel.reserva"
     _description = "Reserva de pista"
+    _inherit = ["mail.thread", "mail.activity.mixin"]
     _rec_name = "referencia"
 
     referencia = fields.Char(string="Referencia", required=True, copy=False, readonly=True, default="Nuevo")
@@ -28,6 +29,7 @@ class ReservaPadel(models.Model):
         string="Estado",
         default="borrador",
         required=True,
+        tracking=True,
     )
 
     duracion_horas = fields.Float(string="Duración (h)", compute="_calcular_duracion", store=True)
