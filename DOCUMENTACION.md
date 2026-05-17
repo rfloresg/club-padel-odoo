@@ -124,7 +124,105 @@ Se reordenó la lista `data` del manifest y se reescribió el CSS con el conteni
 
 ---
 
-### 2.2 Claude Code (Anthropic) — Fase de corrección y mejoras
+### 2.2 Claude Code (Anthropic) — Fase de mejoras (tercer trimestre)
+
+**Herramienta:** Claude Code CLI (modelo claude-sonnet-4-6)  
+**Fecha:** Mayo 2026
+
+Esta segunda ronda con Claude Code se realizó para implementar las mejoras pedidas por el profesor en la corrección: añadir un módulo no visto en clase, aumentar la complejidad de los decoradores y añadir vistas de análisis de datos.
+
+---
+
+**Mejora 1: Módulo `mail` — chatter y seguimiento de cambios en reservas**
+
+**Prompt utilizado:**
+> Quiero añadir el chatter de Odoo a las reservas para que queden registrados los cambios de estado y se puedan dejar notas. ¿Qué hay que hacer?
+
+**Respuesta obtenida:**  
+Claude Code explicó que Odoo tiene un módulo llamado `mail` que incluye dos "mixins" (clases que se mezclan con el modelo): `mail.thread` añade el panel de mensajes y `mail.activity.mixin` añade las actividades programadas. Hay que hacer tres cosas: (1) añadir `"mail"` a la lista `depends` del manifest, (2) añadir `_inherit = ["mail.thread", "mail.activity.mixin"]` en el modelo Python, y (3) añadir el bloque `<div class="oe_chatter">` en la vista XML del formulario.
+
+También añadió `tracking=True` al campo `estado` para que cada cambio de Borrador → Confirmada → Realizada quede registrado automáticamente en el chatter sin escribir código extra.
+
+**Código generado:**
+```python
+class ReservaPadel(models.Model):
+    _name = "club_padel.reserva"
+    _description = "Reserva de pista"
+    _inherit = ["mail.thread", "mail.activity.mixin"]
+
+    estado = fields.Selection(
+        [...],
+        tracking=True,   # registra cada cambio en el chatter
+    )
+```
+
+```xml
+<div class="oe_chatter">
+    <field name="message_follower_ids"/>
+    <field name="activity_ids"/>
+    <field name="message_ids"/>
+</div>
+```
+
+**Cómo se aplicó:**  
+Se modificaron `__manifest__.py`, `reserva_padel.py` y `reservas_vistas.xml`. Al abrir una reserva en Odoo ahora aparece el panel de mensajes en la parte inferior, y cada vez que se confirma o cancela una reserva queda registrado automáticamente.
+
+---
+
+**Mejora 2: `@api.onchange` — autocompletar observaciones al elegir pista**
+
+**Prompt utilizado:**
+> Quiero que cuando el usuario seleccione una pista en el formulario de reserva, se rellene solo el campo de observaciones con el tipo y precio de esa pista. ¿Qué decorador uso?
+
+**Respuesta obtenida:**  
+Se usó `@api.onchange`, que es diferente a `@api.depends`: el `onchange` se ejecuta en tiempo real mientras el usuario rellena el formulario (antes de guardar), mientras que `@api.depends` se ejecuta al guardar. Es el tercer decorador del proyecto junto con `@api.constrains`.
+
+**Código generado:**
+```python
+@api.onchange("pista_id")
+def _onchange_pista_id(self):
+    if self.pista_id and not self.observaciones:
+        self.observaciones = (
+            f"Pista {self.pista_id.nombre} "
+            f"({self.pista_id.tipo_pista}) — "
+            f"{self.pista_id.precio_hora:.2f}€/h"
+        )
+```
+
+**Cómo se aplicó:**  
+Se añadió el método a `reserva_padel.py`. Cuando el usuario selecciona una pista y el campo observaciones está vacío, se rellena automáticamente con el nombre, tipo (indoor/outdoor) y precio por hora de esa pista.
+
+---
+
+**Mejora 3: Vistas `graph` y `pivot` — análisis de reservas**
+
+**Prompt utilizado:**
+> Añade al módulo de reservas una vista de gráfico de barras y una tabla dinámica para ver los ingresos y horas por pista y por estado.
+
+**Respuesta obtenida:**  
+En Odoo, las vistas `graph` y `pivot` son tipos de vista estándar (como `tree` o `form`) que se definen en XML igual que las demás. El `graph` genera gráficos de barras, líneas o tarta. El `pivot` genera una tabla dinámica donde los campos `type="row"` son filas, `type="col"` son columnas y `type="measure"` son los valores numéricos. Hay que añadirlas en el XML y añadir `graph,pivot` al `view_mode` de la acción.
+
+**Código generado (fragmento):**
+```xml
+<graph string="Ingresos por pista" type="bar">
+    <field name="pista_id" type="row"/>
+    <field name="total" type="measure"/>
+</graph>
+
+<pivot string="Análisis de reservas">
+    <field name="pista_id" type="row"/>
+    <field name="estado" type="col"/>
+    <field name="total" type="measure"/>
+    <field name="duracion_horas" type="measure"/>
+</pivot>
+```
+
+**Cómo se aplicó:**  
+Se añadieron las dos vistas en `reservas_vistas.xml` y se actualizó la acción a `view_mode="tree,form,calendar,graph,pivot"`. Ahora desde el menú de reservas hay 5 formas de ver los datos: lista, formulario, calendario, gráfico y tabla dinámica.
+
+---
+
+### 2.3 Claude Code (Anthropic) — Fase de corrección de errores
 
 **Herramienta:** Claude Code CLI (modelo claude-sonnet-4-6)  
 **Fecha:** Mayo 2026  
