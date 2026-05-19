@@ -1,0 +1,50 @@
+<odoo>
+  <data noupdate="1">
+
+    <record id="reserva_001" model="club_padel.reserva">
+      <field name="referencia">RES-0001</field>
+      <field name="cliente_id" ref="socio_maria_garcia"/>
+      <field name="pista_id" ref="pista_1"/>
+      <field name="inicio">2026-05-10 10:00:00</field>
+      <field name="fin">2026-05-10 11:30:00</field>
+      <field name="estado">realizada</field>
+    </record>
+
+    <record id="reserva_002" model="club_padel.reserva">
+      <field name="referencia">RES-0002</field>
+      <field name="cliente_id" ref="socio_carlos_lopez"/>
+      <field name="pista_id" ref="pista_2"/>
+      <field name="inicio">2026-05-12 18:00:00</field>
+      <field name="fin">2026-05-12 19:00:00</field>
+      <field name="estado">realizada</field>
+    </record>
+
+    <record id="reserva_003" model="club_padel.reserva">
+      <field name="referencia">RES-0003</field>
+      <field name="cliente_id" ref="socio_ana_fernandez"/>
+      <field name="pista_id" ref="pista_1"/>
+      <field name="inicio">2026-05-15 09:00:00</field>
+      <field name="fin">2026-05-15 10:30:00</field>
+      <field name="estado">confirmada</field>
+    </record>
+
+    <record id="reserva_004" model="club_padel.reserva">
+      <field name="referencia">RES-0004</field>
+      <field name="cliente_id" ref="socio_jorge_sanchez"/>
+      <field name="pista_id" ref="pista_2"/>
+      <field name="inicio">2026-05-20 17:00:00</field>
+      <field name="fin">2026-05-20 18:00:00</field>
+      <field name="estado">borrador</field>
+    </record>
+
+    <record id="reserva_005" model="club_padel.reserva">
+      <field name="referencia">RES-0005</field>
+      <field name="cliente_id" ref="socio_maria_garcia"/>
+      <field name="pista_id" ref="pista_3"/>
+      <field name="inicio">2026-05-08 11:00:00</field>
+      <field name="fin">2026-05-08 12:00:00</field>
+      <field name="estado">cancelada</field>
+    </record>
+
+  </data>
+</odoo>

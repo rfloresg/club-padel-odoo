@@ -1,0 +1,35 @@
+<odoo>
+  <data noupdate="1">
+
+    <record id="pista_1" model="club_padel.pista">
+      <field name="nombre">Pista 1 — Central</field>
+      <field name="codigo">P1</field>
+      <field name="tipo_pista">indoor</field>
+      <field name="precio_hora">20.0</field>
+      <field name="superficie">cristal</field>
+      <field name="iluminacion">True</field>
+      <field name="activa">True</field>
+    </record>
+
+    <record id="pista_2" model="club_padel.pista">
+      <field name="nombre">Pista 2 — Exterior</field>
+      <field name="codigo">P2</field>
+      <field name="tipo_pista">outdoor</field>
+      <field name="precio_hora">15.0</field>
+      <field name="superficie">cesped_artificial</field>
+      <field name="iluminacion">True</field>
+      <field name="activa">True</field>
+    </record>
+
+    <record id="pista_3" model="club_padel.pista">
+      <field name="nombre">Pista 3 — Cubierta</field>
+      <field name="codigo">P3</field>
+      <field name="tipo_pista">indoor</field>
+      <field name="precio_hora">18.0</field>
+      <field name="superficie">moqueta</field>
+      <field name="iluminacion">False</field>
+      <field name="activa">True</field>
+    </record>
+
+  </data>
+</odoo>

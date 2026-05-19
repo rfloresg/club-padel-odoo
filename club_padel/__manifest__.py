@@ -16,8 +16,10 @@
         # ======================
         "data/secuencia.xml",
         "data/secuencia_ventas.xml",
+        "data/demo_pistas.xml",
         "data/tienda_productos_demo.xml",
         "data/demo_socios_proveedores.xml",
+        "data/demo_reservas.xml",
 
         # ======================
         # REPORTES
