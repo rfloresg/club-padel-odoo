@@ -30,7 +30,40 @@
 
 ---
 
-## 2. Uso de herramientas de Inteligencia Artificial
+## 2. Entorno de desarrollo y herramientas utilizadas
+
+### 2.1 IDE: PyCharm Professional
+
+El desarrollo del proyecto se realizó íntegramente con **PyCharm Professional** (JetBrains) en lugar de editores de terminal como `nano`. PyCharm ofrece resaltado de sintaxis para Python y XML, autocompletado inteligente, navegación directa entre archivos y depuración con puntos de interrupción (breakpoints), lo que permite identificar errores en el código Python sin necesidad de releer los logs completos de Odoo.
+
+**Flujo de trabajo real:**
+
+1. Se edita el código Python o XML directamente en PyCharm.
+2. Se ejecuta el comando de actualización del módulo desde la terminal integrada:
+   ```bash
+   docker compose run --rm odoo odoo -d padel -u club_padel --stop-after-init
+   ```
+3. Si hay error, se lee el traceback en la terminal y se va directamente a la línea indicada desde PyCharm.
+4. Se confirman los cambios con Git desde la pestaña de control de versiones integrada.
+
+### 2.2 Plugins instalados en PyCharm
+
+| Plugin | Para qué se usó |
+|--------|-----------------|
+| **Python** (built-in) | Autocompletado, análisis estático y depurador de Python |
+| **Docker** | Ver contenedores, logs y estado de Odoo y PostgreSQL sin salir del IDE |
+| **Git Integration** (built-in) | Commits, ramas y comparación de cambios desde el IDE |
+| **Rainbow CSV** | Edición del archivo `ir.model.access.csv` con columnas coloreadas |
+| **XML** (built-in) | Validación y formateo de los archivos de vistas XML de Odoo |
+| **.env files support** | Lectura de variables de entorno del docker-compose.yml |
+
+### 2.3 Control de versiones con Git y GitHub
+
+El repositorio está alojado en GitHub: `https://github.com/rfloresg/club-padel-odoo`. Se trabajó con una sola rama (`main`) haciendo commits frecuentes para mantener un historial claro del progreso de cada miembro. Para el trabajo remoto se usó `git push` / `git pull` entre los dos ordenadores, evitando conflictos al no editar el mismo archivo a la vez.
+
+---
+
+## 3. Uso de herramientas de Inteligencia Artificial
 
 Se utilizaron dos herramientas de IA a lo largo del proyecto: **ChatGPT (OpenAI)** y **Claude Code (Anthropic)**.
 
@@ -325,10 +358,39 @@ def _compute_reservas_activas(self):
 | Crear `cliente_contacto.py` (herencia `res.partner`) | Rubén Flores | `fix: crear cliente_contacto.py` |
 | Corrección de imports y manifest | Rubén Flores | `fix: añadir import tienda_producto` |
 | Campos computed en `pista_padel.py` | Rubén Flores | `feat: campos computed etiqueta_pista` |
+| Módulo `mail` — chatter en reservas | Rubén Flores | `feat: añadir mail.thread a reservas` |
+| `@api.onchange` en reservas | Rubén Flores | `feat: añadir @api.onchange en reservas` |
+| Datos demo socios, proveedores y productos | Rubén Flores | `feat: añadir datos demo de socios...` |
 | Ampliar vista de contactos (pestaña Pádel) | Ángel Martínez | `feat: ampliar vista contactos` |
 | Actualizar formulario de pistas con nuevos campos | Ángel Martínez | `feat: mostrar nuevos campos de pista` |
+| Vistas graph y pivot para análisis de reservas | Ángel Martínez | `feat: añadir vistas graph y pivot` |
+| Documentación técnica (fuentes, IA, IDE) | Ángel Martínez | `docs: documentar mejoras...` |
 
 El historial completo de commits está disponible en: https://github.com/rfloresg/club-padel-odoo/commits/main
+
+---
+
+### 3.1 Valoración del trabajo — Rubén Flores
+
+**Autovaloración:**
+
+Me encargué de la parte técnica más compleja del proyecto: diseñar la arquitectura de los tres módulos desde cero, configurar el entorno Docker para que funcionara en local en Windows, y resolver todos los errores de arranque (imports rotos, archivos del manifest que no existían, filtros XML sin atributo obligatorio). Implementé la lógica Python del proyecto: los campos computed con `@api.depends` en pistas y contactos, las validaciones con `@api.constrains` para evitar solapamientos de reservas, el decorador `@api.onchange` para autocompletar campos, y la integración del módulo `mail` para añadir el chatter con historial de cambios. También gestioné el repositorio Git y la configuración de Docker desde el principio.
+
+**Valoración de Ángel:**
+
+Ángel asumió la parte visual del proyecto con buen criterio. Amplió la ficha de contacto de Odoo con la pestaña de pádel, mostrando de forma clara los datos del jugador y su historial de reservas. Actualizó el formulario de pistas para que reflejara todos los campos nuevos. Añadió las vistas de gráfico y tabla dinámica al módulo de reservas, que son las que más impacto visual dan al proyecto. También llevó el peso de la documentación escrita y colaboró en la preparación de la presentación oral, explicando con claridad las partes del módulo que había desarrollado.
+
+---
+
+### 3.2 Valoración del trabajo — Ángel Martínez
+
+**Autovaloración:**
+
+Me centré en la parte de vistas XML e interfaz de usuario del proyecto, que es lo que el profesor ve al navegar por Odoo. Desarrollé la pestaña de pádel en la ficha de contacto, con visibilidad condicional de campos según si el contacto es jugador o no. Actualicé el formulario de pistas con los nuevos campos de superficie e iluminación, y añadí las vistas de análisis (gráfico de barras y tabla dinámica) que permiten ver los ingresos por pista y el estado de las reservas. Me ocupé también de mantener actualizada la documentación del proyecto, recogiendo las fuentes consultadas y las conversaciones con la IA, y participé activamente en la exposición respondiendo preguntas del profesor sobre las vistas y el funcionamiento del módulo.
+
+**Valoración de Rubén:**
+
+Rubén fue el motor técnico del proyecto. Desde el primer día tomó la iniciativa de organizar los módulos correctamente, configurar Git y montar el entorno Docker, lo que nos permitió trabajar de forma ordenada. Resolvió todos los errores técnicos que aparecieron durante el desarrollo, algunos bastante difíciles de diagnosticar como el problema del `addons_path` o los imports rotos en el `__init__.py`. Implementó las partes más complejas del código Python: los campos calculados, las validaciones de solapamiento de reservas y la integración con el módulo de mensajería de Odoo. Sin su trabajo técnico el proyecto no habría funcionado.
 
 ---
 
