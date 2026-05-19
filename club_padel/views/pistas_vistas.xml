@@ -111,6 +111,7 @@
             <group string="Resumen">
               <field name="etiqueta_pista" readonly="1"/>
               <field name="reservas_activas" readonly="1"/>
+              <field name="ingresos_totales" readonly="1"/>
             </group>
 <notebook>
               <page string="Notas">

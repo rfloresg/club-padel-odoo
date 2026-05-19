@@ -50,6 +50,12 @@ class PistaPadel(models.Model):
         store=True,
     )
 
+    ingresos_totales = fields.Float(
+        string="Ingresos totales (€)",
+        compute="_compute_ingresos_totales",
+        store=True,
+    )
+
     _sql_constraints = [
         ("codigo_unico", "unique(codigo)", "El código de pista ya existe."),
     ]
@@ -65,6 +71,13 @@ class PistaPadel(models.Model):
         for rec in self:
             rec.reservas_activas = len(
                 rec.reserva_ids.filtered(lambda r: r.estado != "cancelada")
+            )
+
+    @api.depends("reserva_ids", "reserva_ids.total", "reserva_ids.estado")
+    def _compute_ingresos_totales(self):
+        for rec in self:
+            rec.ingresos_totales = sum(
+                rec.reserva_ids.filtered(lambda r: r.estado == "realizada").mapped("total")
             )
 
     @api.constrains("precio_hora")
