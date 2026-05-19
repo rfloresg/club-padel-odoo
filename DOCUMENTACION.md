@@ -68,83 +68,111 @@ El repositorio está alojado en GitHub: `https://github.com/rfloresg/club-padel-
 
 ## 3. Uso de herramientas de Inteligencia Artificial
 
-Se utilizaron dos herramientas de IA a lo largo del proyecto: **ChatGPT (OpenAI)** en la fase inicial y **Claude Code (Anthropic)** en la fase de corrección y mejoras.
+Se utilizaron dos herramientas de IA a lo largo del proyecto: **ChatGPT (OpenAI)** en la fase inicial del desarrollo y **Claude Code (Anthropic)** en la fase de corrección y mejoras dentro del entorno Docker.
 
 ---
 
 ### 3.1 ChatGPT — Fase inicial del proyecto
 
 **Herramienta:** ChatGPT (chat de grupo compartido entre Rubén y Ángel)  
-**Fecha:** Febrero 2026  
+**Fecha:** 23–25 de febrero 2026  
 **Entorno:** Ubuntu 22 · Odoo 16 como servicio systemd (`odoo16.service`) · usuario `operador_odoo`
 
 ---
 
-**Interacción 1: Crear el módulo desde cero**
+**Interacción 1: Error 500 al añadir el módulo Tienda**
 
 **Prompt utilizado:**
-> "Tengo que realizar este trabajo con mi compañero. Nos gustaría que fuese sobre el pádel... tenemos un usuario operador_odoo y odoo como servicio, es Ubuntu22 y Odoo16. Es en parejas con Angel, hazme el codigo y todo lo necesario para poder hacerlo paso por paso."
+> "LEE TODO ESTE ARCHIVO QUE ES MI MODULO DE ODOO, HEMOS INTENTADO CREAR UN APARTADO TIENDA JUNTO A PISTAS Y A RESERVAS, AHORA MISMO NO FUNCIONA Y NOS DA UN ERROR 500, QUIERO QUE LO ARREGLES."
 
 **Respuesta obtenida (resumen):**  
-ChatGPT generó la estructura completa del módulo con carpetas en inglés (`models/`, `views/`, `security/`), todos los modelos Python, vistas XML, el archivo `ir.model.access.csv`, la secuencia `ir.sequence` y la plantilla QWeb del informe PDF. También incluyó los comandos de Ubuntu para crear archivos y carpetas.
+ChatGPT identificó dos causas del error 500: (1) el archivo `models/reserva_inherit_tienda.py` tenía código duplicado y una línea `pedido.idfrom odoo...` que rompía el intérprete Python; (2) `models/__init__.py` importaba `reserva_tienda_inherit` pero el archivo se llamaba `reserva_inherit_tienda.py`. Además, el menú llamaba a una acción `accion_ventas_tienda` que no existía. Proporcionó los tres archivos corregidos para copiar y pegar.
 
 **Cómo se aplicó:**  
-Sirvió de base para la estructura del proyecto: organización de carpetas, modelos de pistas y reservas, herencia de `res.partner` para datos de jugador, y herencia de `product.template` para el catálogo de productos.
+Se corrigieron los dos archivos Python y se creó la acción de ventas. El error 500 desapareció y Odoo arrancó correctamente.
 
 ---
 
-**Interacción 2: Renombrar todo al español**
-
-**Prompts utilizados:**
-> "espera hazmelo de 0, en español y ponme los comandos necesarios teniendo en cuenta todo, entrar en carpeta salir de carpeta cambiar de usuario y todo. y en español"  
-> "creame todas las carpetas en español y luego los .py tambien"
-
-**Respuesta obtenida (resumen):**  
-ChatGPT regeneró la estructura con nombres en español: `modelos/`, `vistas/`, `seguridad/`, `datos/`, `informes/`, `estatico/` y los archivos `.py` con nombres en español. Incluyó comandos `mkdir`, `touch` y `nano` con cambios de usuario (`sudo -i -u operador_odoo`).
-
-**Cómo se aplicó:**  
-Se creó el módulo con esa estructura. Al migrar a Docker se renombraron al estándar de Odoo (`models/`, `views/`, etc.) para compatibilidad.
-
----
-
-**Interacción 3: Problema con `addons_path` — servicio sin config**
+**Interacción 2: La Tienda no aparece en el menú aunque el código está bien**
 
 **Prompt utilizado:**
-> "no existe el odoo16.conf o el odoo.conf he puesto los 4 y en ninguno me pone que existe... No encuentro el addonspath"
+> "SIGUE SIN SALIR. Estoy actualizando todo y sigue sin aparecer. SOLUCIONAMELO YA FACIL Y SENCILLO."
 
 **Respuesta y seguimiento:**  
-ChatGPT identificó que el servicio era `odoo16.service` y arrancaba solo con `ExecStart=/opt/odoo/odoo-bin` sin archivo de configuración. La solución fue un override del servicio:
+ChatGPT identificó que el módulo se estaba editando en `/home/operador_odoo/custom_addons/club_padel` pero el servicio `odoo16.service` arrancaba con `--addons-path=/opt/odoo/addons,/opt/odoo/custom_addons`, ruta diferente. Por eso los cambios en el `menu.xml` nunca se aplicaban. La solución fue mover el módulo a la ruta correcta:
 
-```
-[Service]
-ExecStart=
-ExecStart=/opt/odoo/odoo-bin --addons-path=/opt/odoo/odoo/addons,/opt/odoo/custom_addons
+```bash
+sudo mv /home/operador_odoo/custom_addons/club_padel /opt/odoo/custom_addons/
+sudo chown -R operador_odoo:operador_odoo /opt/odoo/custom_addons/club_padel
 ```
 
-Luego `sudo systemctl daemon-reload && sudo systemctl restart odoo16.service`.
+Después, para actualizar el módulo sin `-c` (porque el servicio no usaba config):
+
+```bash
+sudo -u operador_odoo /usr/bin/python3 /opt/odoo/odoo-bin \
+  --addons-path=/opt/odoo/addons,/opt/odoo/custom_addons \
+  -d bd_empresa1 -u club_padel --stop-after-init
+```
 
 **Cómo se aplicó:**  
-Permitió que Odoo detectase la carpeta `custom_addons` y cargase el módulo `club_padel`.
+Una vez movido el módulo a la ruta correcta del `addons-path` y especificando `-d bd_empresa1` en el upgrade, el menú Tienda apareció correctamente en la barra junto a Pistas y Reservas.
 
 ---
 
-**Interacción 4: Referencias rotas al renombrar carpetas**
+**Interacción 3: Crear el módulo `tienda_padel` como módulo independiente**
 
 **Prompt utilizado:**
-> "algo pasa a ver piensa, no hay otros ficheros que cogen los nombres de las carpetas en español... solo he cambiado eso, tengo que cambiar algo mas"
+> "VAMOS A VER, VAMOS A HACER UNA COSA AYUDAME A ELIMINAR TODO Y EMPEZAMOS CASI DE 0. QUIERO QUE ME HAGAS UN MODULO MAS QUE SE LLAME TIENDA PADEL Y QUE TENGA PRODUCTOS Y TAL, UN MODULO NUEVO COMO CLUB DE PADEL."
 
-**Respuesta obtenida:**  
-Al renombrar carpetas no basta con el `__manifest__.py`. Hay que actualizar también el `__init__.py` raíz y el `models/__init__.py`. Proporcionó el comando `grep -R "informes\|vistas\|modelos" -n /opt/odoo/custom_addons/club_padel` para detectar referencias antiguas.
+**Respuesta obtenida (resumen):**  
+ChatGPT generó la estructura completa del módulo `tienda_padel` con su propio modelo `tienda_padel.producto` (campos: `nombre`, `categoria`, `precio`, `stock`, `activo`, `imagen`), archivo `ir.model.access.csv`, vistas tree y form, acción y menú. Explicó que se necesitaba un modelo propio en lugar de `product.template` porque sin el módulo `sale` instalado los permisos de los productos estándar de Odoo ocultaban el menú automáticamente.
+
+**Cómo se aplicó:**  
+Se creó el módulo `tienda_padel` en `/opt/odoo/custom_addons/tienda_padel` siguiendo la estructura proporcionada y se instaló con `-i tienda_padel`.
 
 ---
 
-**Interacción 5: Orden del manifest y error en CSS**
+**Interacción 4: Error al confirmar reservas — columna no existe**
 
 **Prompt utilizado:**
-> *(pegó el `__manifest__.py`)* "es correcto todo?"
+> "NOS SALE ESTE ERROR AL CREAR UNA RESERVA, ARREGLALO: `psycopg2.errors.UndefinedColumn: column club_padel_reserva.pedido_tienda_id does not exist`"
 
 **Respuesta obtenida:**  
-Dos problemas: (1) los reportes deben cargarse **antes** que las vistas que los referencian; orden correcto: `security → data → report → views → menu`. (2) El archivo CSS tenía el comando `cat > estatico/... << 'EOF'` pegado como primera línea en lugar de CSS válido.
+El campo `pedido_tienda_id` estaba definido en Python (en `reserva_inherit_tienda.py`) pero la base de datos no tenía la columna porque el módulo nunca se había actualizado correctamente con `-d bd_empresa1`. Al confirmar una reserva, `_comprobar_solape` hacía un SELECT de todos los campos de la tabla y PostgreSQL fallaba al no encontrar la columna. La solución fue ejecutar el upgrade con la BD correcta:
+
+```bash
+sudo -u operador_odoo /usr/bin/python3 /opt/odoo/odoo-bin \
+  --addons-path=/opt/odoo/addons,/opt/odoo/custom_addons \
+  -d bd_empresa1 -u club_padel --stop-after-init
+```
+
+**Cómo se aplicó:**  
+El upgrade con `-d bd_empresa1` creó la columna en PostgreSQL y el error desapareció.
+
+---
+
+**Interacción 5: Crear tercer módulo `club_padel_tienda` como puente**
+
+**Prompt utilizado:**
+> "VAMOS A VER, CREES QUE ES MAS FACIL HACER UN TERCER MODULO ANTES QUE CONECTAR POR EJEMPLO CLIENTES CON ALGUN MODULO NUESTRO? PUES HAZNOS EL MODULO."
+
+**Respuesta obtenida (resumen):**  
+ChatGPT generó el módulo puente `club_padel_tienda` con dos modelos: `club_padel_tienda.carrito` (asociado a una reserva mediante `Many2one`) y `club_padel_tienda.carrito_linea` (con producto, cantidad, precio y subtotal calculado). El campo `total` del carrito se calcula con `@api.depends("linea_ids.subtotal")`. El menú "Carritos por Reserva" se cuelga del menú raíz de `tienda_padel`. Explicó que este diseño evita dependencias circulares entre módulos.
+
+**Fuente:** chat de grupo 23-24 feb 2026, interacción de las 19:10-19:14
+
+---
+
+**Interacción 6: Preparación para la defensa con el profesor**
+
+**Prompt utilizado:**
+> "El profesor va a venir hoy en unas horas y tenemos que enseñarle el proyecto. Tenemos que saber todo lo que hemos hecho y como funcionan las cosas, como lo hemos hecho y porque."
+
+**Respuesta obtenida (resumen):**  
+ChatGPT preparó un guion completo con el discurso de defensa: arquitectura MVC de Odoo (Model-View-Controller), explicación de cada módulo, por qué se separaron en tres módulos, cómo funciona la herencia `_inherit`, qué hace el `__manifest__.py` y la carpeta `data/`, y respuestas a preguntas trampa típicas del profesor (por qué usar `res.partner`, qué pasa al modificar un campo ya instalado, cómo se actualiza con `-u`).
+
+**Cómo se aplicó:**  
+Sirvió de guía para la exposición oral. Aprendimos a explicar el flujo completo: pista → reserva → carrito → total, y la diferencia entre `models/`, `views/`, `security/` y `data/`.
 
 ---
 
@@ -228,7 +256,7 @@ def _compute_reservas_activas(self):
 
 ---
 
-### 3.3 Claude Code — Fase de mejoras (tercer trimestre)
+### 3.3 Claude Code — Fase de mejoras del tercer trimestre
 
 **Herramienta:** Claude Code CLI (modelo claude-sonnet-4-6) · **Fecha:** Mayo 2026
 
