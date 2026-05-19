@@ -128,6 +128,37 @@
       </field>
     </record>
 
+    <!-- KANBAN -->
+    <record id="vista_reservas_kanban" model="ir.ui.view">
+      <field name="name">club_padel.reserva.kanban</field>
+      <field name="model">club_padel.reserva</field>
+      <field name="arch" type="xml">
+        <kanban default_group_by="estado">
+          <field name="referencia"/>
+          <field name="cliente_id"/>
+          <field name="pista_id"/>
+          <field name="inicio"/>
+          <field name="total"/>
+          <field name="estado"/>
+          <templates>
+            <t t-name="kanban-box">
+              <div class="oe_kanban_card oe_kanban_global_click">
+                <div class="o_kanban_record_top">
+                  <strong><field name="referencia"/></strong>
+                </div>
+                <div class="o_kanban_record_body">
+                  <div><span class="text-muted">Cliente: </span><field name="cliente_id"/></div>
+                  <div><span class="text-muted">Pista: </span><field name="pista_id"/></div>
+                  <div><span class="text-muted">Inicio: </span><field name="inicio"/></div>
+                  <div><span class="text-muted">Total: </span><strong><field name="total"/>€</strong></div>
+                </div>
+              </div>
+            </t>
+          </templates>
+        </kanban>
+      </field>
+    </record>
+
     <!-- GRÁFICO -->
     <record id="vista_reservas_graph" model="ir.ui.view">
       <field name="name">club_padel.reserva.graph</field>
@@ -159,7 +190,7 @@
     <record id="accion_club_padel_reservas" model="ir.actions.act_window">
       <field name="name">Reservas</field>
       <field name="res_model">club_padel.reserva</field>
-      <field name="view_mode">tree,form,calendar,graph,pivot</field>
+      <field name="view_mode">kanban,tree,form,calendar,graph,pivot</field>
       <field name="search_view_id" ref="vista_reservas_search"/>
     </record>
 
