@@ -33,7 +33,11 @@
       <field name="name">club_padel.reserva.tree</field>
       <field name="model">club_padel.reserva</field>
       <field name="arch" type="xml">
-        <tree string="Reservas">
+        <tree string="Reservas"
+              decoration-success="estado == 'confirmada'"
+              decoration-info="estado == 'realizada'"
+              decoration-danger="estado == 'cancelada'"
+              decoration-muted="estado == 'cancelada'">
           <field name="referencia"/>
           <field name="cliente_id"/>
           <field name="pista_id"/>
@@ -41,7 +45,11 @@
           <field name="fin"/>
           <field name="duracion_horas"/>
           <field name="total"/>
-          <field name="estado"/>
+          <field name="estado" widget="badge"
+                 decoration-success="estado == 'confirmada'"
+                 decoration-info="estado == 'realizada'"
+                 decoration-danger="estado == 'cancelada'"
+                 decoration-warning="estado == 'borrador'"/>
         </tree>
       </field>
     </record>
@@ -142,15 +150,17 @@
           <field name="estado"/>
           <templates>
             <t t-name="kanban-box">
-              <div class="oe_kanban_card oe_kanban_global_click">
-                <div class="o_kanban_record_top">
-                  <strong><field name="referencia"/></strong>
+              <div t-attf-class="oe_kanban_card oe_kanban_global_click padel_reserva_card padel_estado_#{record.estado.raw_value}">
+                <div class="padel_reserva_ref">
+                  <field name="referencia"/>
                 </div>
-                <div class="o_kanban_record_body">
-                  <div><span class="text-muted">Cliente: </span><field name="cliente_id"/></div>
-                  <div><span class="text-muted">Pista: </span><field name="pista_id"/></div>
-                  <div><span class="text-muted">Inicio: </span><field name="inicio"/></div>
-                  <div><span class="text-muted">Total: </span><strong><field name="total"/>€</strong></div>
+                <div class="padel_reserva_body">
+                  <div>👤 <field name="cliente_id"/></div>
+                  <div>🎾 <field name="pista_id"/></div>
+                  <div>🕐 <field name="inicio"/></div>
+                </div>
+                <div class="padel_reserva_total">
+                  <field name="total"/> €
                 </div>
               </div>
             </t>
