@@ -6,8 +6,6 @@
     <record id="proveedor_bullpadel" model="res.partner">
       <field name="name">Bullpadel S.L.</field>
       <field name="is_company">True</field>
-      <field name="supplier_rank">1</field>
-      <field name="customer_rank">0</field>
       <field name="street">Calle Industria, 14</field>
       <field name="city">Madrid</field>
       <field name="country_id" ref="base.es"/>
@@ -18,8 +16,6 @@
     <record id="proveedor_head" model="res.partner">
       <field name="name">Head Sport GmbH</field>
       <field name="is_company">True</field>
-      <field name="supplier_rank">1</field>
-      <field name="customer_rank">0</field>
       <field name="street">Wuhrkopfweg 1</field>
       <field name="city">Kennelbach</field>
       <field name="country_id" ref="base.at"/>
@@ -30,8 +26,6 @@
     <record id="proveedor_dunlop" model="res.partner">
       <field name="name">Dunlop Sports España</field>
       <field name="is_company">True</field>
-      <field name="supplier_rank">1</field>
-      <field name="customer_rank">0</field>
       <field name="street">Avenida del Deporte, 8</field>
       <field name="city">Barcelona</field>
       <field name="country_id" ref="base.es"/>
@@ -44,8 +38,6 @@
     <record id="socio_maria_garcia" model="res.partner">
       <field name="name">María García López</field>
       <field name="is_company">False</field>
-      <field name="customer_rank">1</field>
-      <field name="supplier_rank">0</field>
       <field name="phone">+34 666 111 222</field>
       <field name="email">maria.garcia@email.com</field>
       <field name="city">Valencia</field>
@@ -60,8 +52,6 @@
     <record id="socio_carlos_lopez" model="res.partner">
       <field name="name">Carlos López Martín</field>
       <field name="is_company">False</field>
-      <field name="customer_rank">1</field>
-      <field name="supplier_rank">0</field>
       <field name="phone">+34 677 333 444</field>
       <field name="email">carlos.lopez@email.com</field>
       <field name="city">Valencia</field>
@@ -76,8 +66,6 @@
     <record id="socio_ana_fernandez" model="res.partner">
       <field name="name">Ana Fernández Ruiz</field>
       <field name="is_company">False</field>
-      <field name="customer_rank">1</field>
-      <field name="supplier_rank">0</field>
       <field name="phone">+34 688 555 666</field>
       <field name="email">ana.fernandez@email.com</field>
       <field name="city">Valencia</field>
@@ -92,8 +80,6 @@
     <record id="socio_jorge_sanchez" model="res.partner">
       <field name="name">Jorge Sánchez Moreno</field>
       <field name="is_company">False</field>
-      <field name="customer_rank">1</field>
-      <field name="supplier_rank">0</field>
       <field name="phone">+34 699 777 888</field>
       <field name="email">jorge.sanchez@email.com</field>
       <field name="city">Valencia</field>
