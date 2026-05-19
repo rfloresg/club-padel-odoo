@@ -1,6 +1,50 @@
 <odoo>
   <data noupdate="1">
 
+    <!-- ======== PRODUCTOS TIENDA INTERNA ======== -->
+
+    <record id="tienda_prod_pelotas" model="club_padel.tienda_producto">
+      <field name="name">Pelotas de pádel (bote 3)</field>
+      <field name="precio">8.50</field>
+      <field name="stock">40</field>
+      <field name="activo">True</field>
+      <field name="descripcion">Bote de 3 pelotas para uso en pista.</field>
+    </record>
+
+    <record id="tienda_prod_pala_basica" model="club_padel.tienda_producto">
+      <field name="name">Pala iniciación</field>
+      <field name="precio">59.99</field>
+      <field name="stock">10</field>
+      <field name="activo">True</field>
+      <field name="descripcion">Ideal para jugadores que empiezan.</field>
+    </record>
+
+    <record id="tienda_prod_bullpadel" model="club_padel.tienda_producto">
+      <field name="name">Bullpadel Hack 03</field>
+      <field name="precio">189.99</field>
+      <field name="stock">4</field>
+      <field name="activo">True</field>
+      <field name="descripcion">Pala de nivel avanzado.</field>
+    </record>
+
+    <record id="tienda_prod_overgrip" model="club_padel.tienda_producto">
+      <field name="name">Overgrip Wilson (pack 3)</field>
+      <field name="precio">5.99</field>
+      <field name="stock">60</field>
+      <field name="activo">True</field>
+      <field name="descripcion">Pack de overgrips para mejorar el agarre.</field>
+    </record>
+
+    <record id="tienda_prod_bolsa" model="club_padel.tienda_producto">
+      <field name="name">Bolsa de pádel Head Tour</field>
+      <field name="precio">45.00</field>
+      <field name="stock">6</field>
+      <field name="activo">True</field>
+      <field name="descripcion">Bolsa para transportar pala y accesorios.</field>
+    </record>
+
+    <!-- ======== RESERVAS ======== -->
+
     <record id="reserva_001" model="club_padel.reserva">
       <field name="referencia">RES-0001</field>
       <field name="cliente_id" ref="socio_maria_garcia"/>
