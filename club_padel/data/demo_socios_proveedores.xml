@@ -91,5 +91,47 @@
       <field name="modelo_pala">Metalbone 3.2</field>
     </record>
 
+    <record id="socio_laura_perez" model="res.partner">
+      <field name="name">Laura Pérez Sanz</field>
+      <field name="is_company">False</field>
+      <field name="phone">+34 611 222 333</field>
+      <field name="email">laura.perez@email.com</field>
+      <field name="city">Valencia</field>
+      <field name="country_id" ref="base.es"/>
+      <field name="es_jugador_padel">True</field>
+      <field name="nivel_padel">competicion</field>
+      <field name="mano_dominante">zurda</field>
+      <field name="marca_pala">babolat</field>
+      <field name="modelo_pala">Viper Carbon</field>
+    </record>
+
+    <record id="socio_miguel_romero" model="res.partner">
+      <field name="name">Miguel Romero Gil</field>
+      <field name="is_company">False</field>
+      <field name="phone">+34 622 444 555</field>
+      <field name="email">miguel.romero@email.com</field>
+      <field name="city">Valencia</field>
+      <field name="country_id" ref="base.es"/>
+      <field name="es_jugador_padel">True</field>
+      <field name="nivel_padel">intermedio</field>
+      <field name="mano_dominante">diestra</field>
+      <field name="marca_pala">nox</field>
+      <field name="modelo_pala">AT10 Genius</field>
+    </record>
+
+    <record id="socio_sofia_torres" model="res.partner">
+      <field name="name">Sofía Torres Vega</field>
+      <field name="is_company">False</field>
+      <field name="phone">+34 633 666 777</field>
+      <field name="email">sofia.torres@email.com</field>
+      <field name="city">Valencia</field>
+      <field name="country_id" ref="base.es"/>
+      <field name="es_jugador_padel">True</field>
+      <field name="nivel_padel">avanzado</field>
+      <field name="mano_dominante">diestra</field>
+      <field name="marca_pala">head</field>
+      <field name="modelo_pala">Alpha Motion</field>
+    </record>
+
   </data>
 </odoo>

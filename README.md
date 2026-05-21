@@ -12,6 +12,20 @@ Proyecto de 2º DAM — Implantación y customización de Odoo 16 para la gesti�
 
 ---
 
+## Capturas de pantalla
+
+| Pistas (Kanban) | Reservas (Lista) |
+|:-:|:-:|
+| ![Pistas kanban](docs/screenshots/pistas_kanban.png) | ![Reservas lista](docs/screenshots/reservas_lista.png) |
+
+| Ficha de socio — Pestaña Pádel | Formulario de reserva |
+|:-:|:-:|
+| ![Socio padel](docs/screenshots/socio_padel.png) | ![Reserva form](docs/screenshots/reserva_form.png) |
+
+> **Para añadir las capturas:** guarda las imágenes en la carpeta `docs/screenshots/` con los nombres indicados y vuelve a hacer push. Ver [instrucciones abajo](#cómo-tomar-las-capturas).
+
+---
+
 ## Descripción
 
 Este proyecto implementa tres módulos interconectados sobre Odoo 16 Community que cubren las operaciones principales de un club de pádel: gestión de pistas, reservas con control de solapamientos, ficha de socio extendida con datos de jugador, tienda interna de productos y un módulo puente que une reservas con carritos de compra.
@@ -256,3 +270,23 @@ club_padel_tienda/
 Proyecto final de **Implantación de Sistemas ERP-CRM** — 2º DAM.
 
 El objetivo es demostrar la capacidad de extender un ERP real mediante módulos propios: herencia de modelos estándar, campos computados, validaciones, informes y arquitectura modular.
+
+---
+
+## Cómo tomar las capturas
+
+Una vez Odoo esté corriendo con los datos demo, tomar estas capturas y guardarlas en `docs/screenshots/`:
+
+| Nombre del archivo | Dónde ir en Odoo | Qué mostrar |
+|--------------------|-----------------|-------------|
+| `pistas_kanban.png` | Club Pádel → Pistas → vista Kanban | Las tarjetas de pista con tipo y precio |
+| `reservas_lista.png` | Club Pádel → Reservas → vista Lista | La lista con los badges de colores por estado |
+| `socio_padel.png` | Contactos → cualquier socio → pestaña Pádel | Los campos de jugador y la tabla de reservas |
+| `reserva_form.png` | Club Pádel → Reservas → abrir una reserva | El formulario completo con botones de estado |
+
+Después ejecutar:
+```bash
+git add docs/screenshots/
+git commit -m "docs: añadir capturas de pantalla del módulo"
+git push
+```

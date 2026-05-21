@@ -7,6 +7,15 @@ Descargar desde: https://www.docker.com/products/docker-desktop/
 
 > Si Docker Desktop está abierto y en la barra de tareas aparece el icono de la ballena, está listo.
 
+Una vez instalado Docker Desktop, los comandos de esta guía funcionan desde cualquier terminal sin cambios:
+
+- **Windows** — PowerShell o CMD
+- **Linux** — terminal estándar (bash/zsh)
+- **WSL** — terminal de Linux dentro de Windows (si tiene WSL2 activado, Docker Desktop se integra automáticamente)
+- **IDE** — terminal integrada de PyCharm, VS Code, etc.
+
+No hay diferencia en los comandos entre un sistema y otro.
+
 ---
 
 ## Pasos para arrancar el proyecto
