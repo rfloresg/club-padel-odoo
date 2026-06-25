@@ -12,7 +12,7 @@ services:
     restart: unless-stopped
 
   odoo:
-    image: odoo:16.0
+    build: .
     depends_on:
       - db
     ports:
@@ -23,7 +23,6 @@ services:
       PASSWORD: odoo
     volumes:
       - odoo-web-data:/var/lib/odoo
-      - .:/mnt/extra-addons
     restart: unless-stopped
 
 volumes:
